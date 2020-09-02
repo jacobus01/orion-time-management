@@ -22,7 +22,7 @@ Features
         responsive design
     Autofac
     Entity Framework Core
-    Repository and Unit of Work Pattern
+    !!!Repository and Unit of Work Pattern(Fixing: decoupling unit of work and making a singleton of the context and adding the dispose interface)
     Swagger
     custom encryption (AES)
     SOLID Principles
