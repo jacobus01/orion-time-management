@@ -46,8 +46,8 @@ namespace Orion.Web.API
 
             services.AddControllers();
 
-            //services.AddDbContext<OrionContext>(options =>
-            //options.UseSqlServer(Configuration.GetConnectionString("Orion")));
+            services.AddDbContext<OrionContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("Orion")));
 
             services.AddCors();
 
@@ -89,6 +89,18 @@ namespace Orion.Web.API
             // for you.
             builder.RegisterType<UnitOfWork>().
             As<IUnitOfWork>();
+            builder.RegisterType<AccessGroupRepository>().
+            As<IAccessGroupRepository>();
+            builder.RegisterType<CapturedTimeRepository>().
+            As<ICapturedTimeRepository>();
+            builder.RegisterType<RoleRepository>().
+            As<IRoleRepository>();
+            builder.RegisterType<TaskRepository>().
+            As<ITaskRepository>();
+            builder.RegisterType<UserRepository>().
+            As<IUserRepository>();
+            builder.RegisterType<OrionContext>().
+            As<DbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
