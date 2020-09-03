@@ -25,13 +25,15 @@ namespace Orion.Web.API.Controllers
     [ApiController]
     public class ApplicationUserController : ControllerBase
     {
-        IUserRepository _repo;
+        private readonly IUnitOfWork _uow;
         ApplicationSettings _appSettings;
 
-        public ApplicationUserController(IUserRepository repo)
+        public ApplicationUserController(IUnitOfWork uow)
         {
-            _repo = repo;
+            _uow = uow;
             ApplicationSettings settings = new ApplicationSettings();
+
+            //TODO fix bug preventing settings issue
             settings.JWT_Secret = "1234567890123456";
             settings.Client_URL = "http://localhost:4200";
             _appSettings = settings;
@@ -58,8 +60,8 @@ namespace Orion.Web.API.Controllers
 
             try
             {
-                _repo.Add(applicationUser);
-                _repo._unitOfWork.Context.SaveChanges();
+                _uow.Users.Add(applicationUser);
+                _uow.Complete();
                 return Ok();
             }
             catch (Exception ex)
@@ -78,7 +80,7 @@ namespace Orion.Web.API.Controllers
 
             try
             {
-                var result = _repo.GetAll();
+                var result = _uow.Users.GetAll();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -93,8 +95,8 @@ namespace Orion.Web.API.Controllers
         //POST : /api/ApplicationUser/Login
         public IActionResult Login(LoginModel model)
         {
-            var user = _repo.GetByEmail(model.Email);
-            if (user != null && _repo.CheckPassword(user, model.Password))
+            var user = _uow.Users.GetByEmail(model.Email);
+            if (user != null && _uow.Users.CheckPassword(user, model.Password))
             {
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
@@ -119,7 +121,7 @@ namespace Orion.Web.API.Controllers
         //GET : /api/ApplicationUser/ProfilePic
         public async Task<IActionResult> GetProfile([FromQuery]int id)
         {
-            var user = _repo.GetById(id);
+            var user = _uow.Users.GetById(id);
             return File(user.ProfilePicture, "image/jpeg");
         }
 
@@ -130,9 +132,8 @@ namespace Orion.Web.API.Controllers
         {
             try
             {
-                
                 var file = Request.Form.Files[0];
-                var user = _repo.GetById(Int32.Parse(file.FileName));
+                var user = _uow.Users.GetById(Int32.Parse(file.FileName));
                 if (file.Length > 0)
                 {
                     using (var stream = new MemoryStream())
@@ -141,9 +142,9 @@ namespace Orion.Web.API.Controllers
                         user.ProfilePicture = stream.ToArray();
                     }
 
-                    
-                    _repo.Update(user);
-                    _repo._unitOfWork.Context.SaveChanges();
+                    //TODO:Just Check that the update takes place. For Unit testing to fix if there is an issue
+                    _uow.Users.Add(user);
+                    _uow.Complete();
 
                     return Ok(new { result = "success" });
                 }

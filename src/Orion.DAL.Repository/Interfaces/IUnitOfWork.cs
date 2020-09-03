@@ -7,10 +7,11 @@ namespace Orion.DAL.Repository.Interfaces
 {
     public interface IUnitOfWork
     {
-        DbContext Context { get; }
-        void BeginTransaction();
-        void SaveChanges();
-        bool Commit();
-        void Rollback();
+        IAccessGroupRepository AccessGroups { get; }
+        ICapturedTimeRepository CapturedTimes { get; }
+        IRoleRepository Roles { get; }
+        ITaskRepository Tasks { get; }
+        IUserRepository Users { get; }
+        int Complete();
     }
 }

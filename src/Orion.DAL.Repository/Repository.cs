@@ -4,50 +4,62 @@ using Orion.DAL.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Orion.DAL.Repository
 {
-    public class Repository<T> : IRepository<T>  where T : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        public IUnitOfWork _unitOfWork { get; }
+        protected readonly DbContext Context;
+        private DbSet<TEntity> _entities;
 
-        public Repository(IUnitOfWork unitOfWork)
+        //We do not set the OrionContext here but only the standard dbcontext.
+        //Also we have to use the set method as our entities are not recognized in this context
+        public Repository(DbContext context)
         {
-            _unitOfWork = unitOfWork;
+            Context = context;
+            _entities= Context.Set<TEntity>();
         }
 
-        public IEnumerable<T> GetAll()
+        public TEntity Get(int id)
         {
-            return _unitOfWork.Context.Set<T>().ToList<T>();
+            return Context.Set<TEntity>().Find(id);
         }
 
-        public T Get(T entity)
+        public IEnumerable<TEntity> GetAll()
         {
-            return _unitOfWork.Context.Set<T>().FirstOrDefault<T>(e => e == entity);
+            return _entities.ToList();
         }
 
-        public void Add(T entity)
+        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
         {
-            _unitOfWork.Context.Set<T>().Add(entity);
-
+            return _entities.Where(predicate);
         }
 
-        public void Delete(T entity)
+        public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            T existing = _unitOfWork.Context.Set<T>().Find(entity);
-            if (existing != null) _unitOfWork.Context.Set<T>().Remove(existing);
+            return _entities.SingleOrDefault(predicate);
         }
 
-        public void Update(T entity)
+        public void Add(TEntity entity)
         {
-            _unitOfWork.Context.Entry(entity).State = EntityState.Modified;
-            _unitOfWork.Context.Update(entity);
+            Context.Set<TEntity>().Add(entity);
         }
 
-        public void Dispose()
+        public void AddRange(IEnumerable<TEntity> entities)
         {
-  
+            Context.Set<TEntity>().AddRange(entities);
+        }
+
+        public void Remove(TEntity entity)
+        {
+            Context.Set<TEntity>().Remove(entity);
+        }
+
+        public void RemoveRange(IEnumerable<TEntity> entities)
+        {
+            Context.Set<TEntity>().RemoveRange(entities);
         }
     }
 }

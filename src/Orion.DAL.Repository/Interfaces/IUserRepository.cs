@@ -1,11 +1,10 @@
 ﻿using Orion.DAL.EF.Models.DB;
 using Orion.DAL.Repository.Interfaces;
 
-namespace Orion.DAL.Repository
+namespace Orion.DAL.Repository.Interfaces
 {
     public interface IUserRepository : IRepository<User>
     {
-        IUnitOfWork _unitOfWork { get; }
 
         User GetByEmail(string email);
 

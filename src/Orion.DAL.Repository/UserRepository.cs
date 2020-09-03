@@ -11,26 +11,30 @@ namespace Orion.DAL.Repository
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        public IUnitOfWork _unitOfWork { get; }
-        public UserRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public UserRepository(OrionContext context) : base(context)
         {
-            _unitOfWork = unitOfWork;
         }
 
         public User GetByEmail(string email)
         {
-            return _unitOfWork.Context.Set<User>().FirstOrDefault(e => e.Email == email);
+            return OrionContext.User.SingleOrDefault(e => e.Email == email);
         }
 
         public User GetById(int id)
         {
-            return _unitOfWork.Context.Set<User>().FirstOrDefault(e => e.Id == id);
+            return OrionContext.User.SingleOrDefault(e => e.Id == id);
         }
 
+        //TODO: This check should not happen here and needs to be put in a helper class
         public bool CheckPassword(User user, string password)
         {
             string decryptedPassword = Cipher.Decrypt(user.PasswordHash, Cipher.orionSalt);
             return password == decryptedPassword;
+        }
+
+        public OrionContext OrionContext
+        {
+            get { return Context as OrionContext; }
         }
     }
 }

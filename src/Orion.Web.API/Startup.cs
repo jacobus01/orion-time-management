@@ -87,20 +87,6 @@ namespace Orion.Web.API
             // Register your own things directly with Autofac here. Don't
             // call builder.Populate(), that happens in AutofacServiceProviderFactory
             // for you.
-            builder.RegisterType<Repository<User>>().
-            As<IRepository<User>>();
-            builder.RegisterType<Repository<AccessGroup>>().
-            As<IRepository<AccessGroup>>();
-            builder.RegisterType<Repository<CapturedTime>>().
-            As<IRepository<CapturedTime>>();
-            builder.RegisterType<Repository<Role>>().
-            As<IRepository<Role>>();
-            builder.RegisterType<Repository<DAL.EF.Models.DB.Task>>().
-            As<IRepository<DAL.EF.Models.DB.Task>>();
-            builder.RegisterType<UserRepository>().
-            As<IUserRepository>();
-            builder.RegisterType<OrionContext>().
-            As<DbContext>();
             builder.RegisterType<UnitOfWork>().
             As<IUnitOfWork>();
         }

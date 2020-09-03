@@ -13,10 +13,10 @@ namespace Orion.Web.API.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        IRepository<DAL.EF.Models.DB.Task> _repo;
-        public TaskController(IRepository<DAL.EF.Models.DB.Task> repo)
+        private readonly IUnitOfWork _uow;
+        public TaskController(IUnitOfWork uow)
         {
-            _repo = repo;
+            _uow = uow;
         }
 
         [HttpPost]
@@ -31,8 +31,8 @@ namespace Orion.Web.API.Controllers
             task.Duration = res.Duration;
             try
             {
-                _repo.Add(task);
-                _repo._unitOfWork.Context.SaveChanges();
+                _uow.Tasks.Add(task);
+                _uow.Complete();
                 return Ok();
             }
             catch (Exception ex)
@@ -51,7 +51,7 @@ namespace Orion.Web.API.Controllers
 
             try
             {
-                var result = _repo.GetAll();
+                var result = _uow.Tasks.GetAll();
                 return Ok(result);
             }
             catch (Exception ex)

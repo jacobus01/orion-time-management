@@ -14,10 +14,10 @@ namespace Orion.Web.API.Controllers
     [ApiController]
     public class CapturedTimeController : ControllerBase
     {
-        IRepository<CapturedTime> _repo;
-        public CapturedTimeController(IRepository<CapturedTime> repo)
+        private readonly IUnitOfWork _uow;
+        public CapturedTimeController(IUnitOfWork uow)
         {
-            _repo = repo;
+            _uow = uow;
         }
 
         [HttpPost]
@@ -36,8 +36,8 @@ namespace Orion.Web.API.Controllers
             try
             {
                 //TODO: Validate user has not worked more than 10 hours for the given date
-                _repo.Add(capturedTime);
-                _repo._unitOfWork.Context.SaveChanges();
+                _uow.CapturedTimes.Add(capturedTime);
+                _uow.Complete();
                 return Ok();
             }
             catch (Exception ex)
@@ -56,7 +56,7 @@ namespace Orion.Web.API.Controllers
 
             try
             {
-                var result = _repo.GetAll();
+                var result = _uow.CapturedTimes.GetAll();
                 return Ok(result);
             }
             catch (Exception ex)
