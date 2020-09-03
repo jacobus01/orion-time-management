@@ -40,5 +40,7 @@ Still Outstanding:
     base class for entities datecreated, datemodified, createduser, modifieduser, isdeleted
     Seed Data
     Redux Store pattern
+    Hardening(caching, retries)
+    Worker thread for Angular
     
 
