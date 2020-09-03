@@ -37,4 +37,7 @@ Still Outstanding:
     signalR
     async pattern
     dto and dao
+    base class for entities datecreated, datemodified, createduser, modifieduser, isdeleted
+    Seed Data
+    
 
