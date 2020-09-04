@@ -34,6 +34,7 @@ In Progress:
     styling
     Seed Data
     validation client and server side
+    CI/CD Pipeline
 
 Still Outstanding:
 
@@ -44,5 +45,6 @@ Still Outstanding:
     Redux Store pattern
     Hardening(caching, retries)
     Worker thread for Angular
+    Containerization (Docker)
     
 
