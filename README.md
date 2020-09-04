@@ -22,23 +22,25 @@ Features
         responsive design
     Autofac
     Entity Framework Core
-    !!!Repository and Unit of Work Pattern(Fixing: decoupling unit of work and making a singleton of the context and adding the dispose interface)
+    Repository and Unit of Work Pattern
+    Base class for entities datecreated, datemodified, createduser, modifieduser, isdeleted/Tracking with soft delete
     Swagger
     custom encryption (AES)
     SOLID Principles
+    
+In Progress:
+
+    exception handling
+    styling
+    Seed Data
+    validation client and server side
 
 Still Outstanding:
 
-    validation client and server side
     state services for angular
-    exception handling
     unit tests and mocking angular as well as API
-    styling
     signalR
     async pattern
-    dto and dao
-    base class for entities datecreated, datemodified, createduser, modifieduser, isdeleted
-    Seed Data
     Redux Store pattern
     Hardening(caching, retries)
     Worker thread for Angular
