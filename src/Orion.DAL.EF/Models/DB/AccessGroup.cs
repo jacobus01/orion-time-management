@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Orion.DAL.EF.Models.DB
 {
-    public partial class AccessGroup
+    public partial class AccessGroup: TableBase
     {
         public AccessGroup()
         {

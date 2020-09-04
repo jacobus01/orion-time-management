@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Orion.DAL.EF.Models.DB
 {
-    public partial class User
+    public partial class User : TableBase
     {
         public User()
         {
@@ -17,6 +17,7 @@ namespace Orion.DAL.EF.Models.DB
         public string LastName { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
+        public bool? ChangePasswordOnNextLogin { get; set; }
         public string EmployeeNumber { get; set; }
         public bool? IsActive { get; set; }
         public bool? LockoutEnabled { get; set; }

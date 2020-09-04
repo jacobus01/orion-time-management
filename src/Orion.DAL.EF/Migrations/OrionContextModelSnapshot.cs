@@ -29,9 +29,46 @@ namespace Orion.DAL.EF.Migrations
                     b.Property<string>("AccessGroupName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastUpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("LastUpdatedBy")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("AccessGroup");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessGroupName = "Admin",
+                            CreatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedBy = 1,
+                            IsDeleted = false,
+                            LastUpdatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedBy = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessGroupName = "User",
+                            CreatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedBy = 1,
+                            IsDeleted = false,
+                            LastUpdatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedBy = 1
+                        });
                 });
 
             modelBuilder.Entity("Orion.DAL.EF.Models.DB.CapturedTime", b =>
@@ -41,8 +78,23 @@ namespace Orion.DAL.EF.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastUpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("LastUpdatedBy")
+                        .HasColumnType("int");
 
                     b.Property<decimal?>("Rate")
                         .HasColumnType("decimal(18, 2)");
@@ -72,6 +124,21 @@ namespace Orion.DAL.EF.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastUpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("LastUpdatedBy")
+                        .HasColumnType("int");
+
                     b.Property<decimal?>("Rate")
                         .HasColumnType("decimal(18, 2)");
 
@@ -81,6 +148,41 @@ namespace Orion.DAL.EF.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedBy = 1,
+                            IsDeleted = false,
+                            LastUpdatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedBy = 1,
+                            Rate = 0m,
+                            RoleName = "Casual Employee Level 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedBy = 1,
+                            IsDeleted = false,
+                            LastUpdatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedBy = 1,
+                            Rate = 0m,
+                            RoleName = "Casual Employee Level 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedBy = 1,
+                            IsDeleted = false,
+                            LastUpdatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedBy = 1,
+                            Rate = 0m,
+                            RoleName = "Manager"
+                        });
                 });
 
             modelBuilder.Entity("Orion.DAL.EF.Models.DB.Task", b =>
@@ -90,8 +192,23 @@ namespace Orion.DAL.EF.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
                     b.Property<decimal?>("Duration")
                         .HasColumnType("decimal(18, 1)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastUpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("LastUpdatedBy")
+                        .HasColumnType("int");
 
                     b.Property<string>("TaskName")
                         .HasColumnType("nvarchar(max)");
@@ -114,6 +231,15 @@ namespace Orion.DAL.EF.Migrations
                     b.Property<DateTime?>("AppointmentDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool?>("ChangePasswordOnNextLogin")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .HasColumnName("email")
                         .HasColumnType("nvarchar(max)");
@@ -130,8 +256,17 @@ namespace Orion.DAL.EF.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValueSql("((1))");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastUpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("LastUpdatedBy")
+                        .HasColumnType("int");
 
                     b.Property<bool?>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -155,6 +290,29 @@ namespace Orion.DAL.EF.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessGroupId = 1,
+                            AppointmentDate = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            ChangePasswordOnNextLogin = false,
+                            CreatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedBy = 1,
+                            Email = "admin@admin.com",
+                            EmployeeNumber = "XXXXXXXXX",
+                            FirstName = "Root",
+                            IsActive = true,
+                            IsDeleted = false,
+                            LastName = "Admin",
+                            LastUpdatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedBy = 1,
+                            LockoutEnabled = false,
+                            PasswordHash = "CWa/NbR02Squq2Np65dn4Q==",
+                            RoleId = 1,
+                            UserName = "SuperUser"
+                        });
                 });
 
             modelBuilder.Entity("Orion.DAL.EF.Models.DB.CapturedTime", b =>

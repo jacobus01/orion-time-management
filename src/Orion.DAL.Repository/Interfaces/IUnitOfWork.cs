@@ -12,6 +12,8 @@ namespace Orion.DAL.Repository.Interfaces
         IRoleRepository Roles { get; }
         ITaskRepository Tasks { get; }
         IUserRepository Users { get; }
+
+        void SetActiveUserId(int Id);
         int Complete();
     }
 }

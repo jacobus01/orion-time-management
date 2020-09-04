@@ -43,19 +43,25 @@ namespace Orion.Web.API.Controllers
         [Route("CreateUser")]
         [Authorize]
         //POST : /api/ApplicationUser/CreateUser
-        public Object PostApplicationUser(ApplicationUserModel model)
+        public IActionResult PostApplicationUser(ApplicationUserModel model)
         {
+            _uow.SetActiveUserId(Int32.Parse(Request.Headers["CurrentUserId"]));
+            //We need to determine if this is an add or update action
             var applicationUser = new User()
             {
+                Id = model.Id,
                 UserName = model.UserName,
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 PasswordHash = Cipher.Encrypt(model.Password, Cipher.orionSalt),
+                ChangePasswordOnNextLogin = model.ChangePasswordOnNextLogin,
                 EmployeeNumber = model.EmployeeNumber,
                 IsActive = model.IsActive,
                 LockoutEnabled = model.LockoutEnabled,
-                AppointmentDate = DateTime.Today
+                AppointmentDate = DateTime.Today,
+                RoleId = model.RoleId,
+                AccessGroupId = model.AccessGroupId
             };
 
             try
@@ -77,7 +83,6 @@ namespace Orion.Web.API.Controllers
         //POST : /api/ApplicationUser/Users
         public IActionResult GetApplicationUserList()
         {
-
             try
             {
                 var result = _uow.Users.GetAll();
@@ -102,9 +107,9 @@ namespace Orion.Web.API.Controllers
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("UserID",user.Id.ToString())
+                        new Claim("UserID", user.Id.ToString())
                     }),
-                    Expires = DateTime.UtcNow.AddDays(1),
+                    Expires = DateTime.UtcNow.AddMinutes(5),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var tokenHandler = new JwtSecurityTokenHandler();

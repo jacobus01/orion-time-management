@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Orion.DAL.EF.Models.DB
 {
-    public partial class Role
+    public partial class Role : TableBase
     {
         public Role()
         {

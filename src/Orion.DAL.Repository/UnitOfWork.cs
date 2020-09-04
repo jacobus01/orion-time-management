@@ -24,6 +24,11 @@ namespace Orion.DAL.Repository
 
         }
 
+        public void SetActiveUserId(int Id)
+        {
+            _context.CurrentUserId = Id;
+        }
+
         public IAccessGroupRepository AccessGroups { get; private set; }
 
         public ICapturedTimeRepository CapturedTimes { get; private set; }

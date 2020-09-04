@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Orion.DAL.EF.Models.DB
 {
-    public partial class CapturedTime
+    public partial class CapturedTime : TableBase
     {
         public int Id { get; set; }
         public int? UserId { get; set; }
