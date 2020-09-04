@@ -46,5 +46,6 @@ Still Outstanding:
     Hardening(caching, retries)
     Worker thread for Angular
     Containerization (Docker)
+    refactor angular items into modules
     
 
