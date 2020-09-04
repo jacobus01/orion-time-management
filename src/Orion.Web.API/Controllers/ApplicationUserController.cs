@@ -97,7 +97,6 @@ namespace Orion.Web.API.Controllers
 
         [HttpPost]
         [Route("Login")]
-        //POST : /api/ApplicationUser/Login
         public IActionResult Login(LoginModel model)
         {
             var user = _uow.Users.GetByEmail(model.Email);
