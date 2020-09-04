@@ -47,26 +47,29 @@ namespace Orion.Web.API.Controllers
         {
             _uow.SetActiveUserId(Int32.Parse(Request.Headers["CurrentUserId"]));
             //We need to determine if this is an add or update action
-            var applicationUser = new User()
-            {
-                Id = model.Id,
-                UserName = model.UserName,
-                Email = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                PasswordHash = Cipher.Encrypt(model.Password, Cipher.orionSalt),
-                ChangePasswordOnNextLogin = model.ChangePasswordOnNextLogin,
-                EmployeeNumber = model.EmployeeNumber,
-                IsActive = model.IsActive,
-                LockoutEnabled = model.LockoutEnabled,
-                AppointmentDate = DateTime.Today,
-                RoleId = model.RoleId,
-                AccessGroupId = model.AccessGroupId
-            };
+
+
+            var applicationUser = model.Id.HasValue ? _uow.Users.SingleOrDefault(u => u.Id == model.Id) : new User();
+
+
+            applicationUser.UserName = model.UserName;
+            applicationUser.Email = model.Email;
+            applicationUser.FirstName = model.FirstName;
+            applicationUser.LastName = model.LastName;
+            applicationUser.PasswordHash = model.Id.HasValue ? Cipher.Encrypt(model.Password, Cipher.orionSalt) : applicationUser.PasswordHash;
+            applicationUser.ChangePasswordOnNextLogin = model.ChangePasswordOnNextLogin;
+            applicationUser.EmployeeNumber = model.EmployeeNumber;
+            applicationUser.IsActive = model.IsActive;
+            applicationUser.LockoutEnabled = model.LockoutEnabled;
+            applicationUser.AppointmentDate = DateTime.Today;
+            applicationUser.RoleId = model.RoleId;
+            applicationUser.AccessGroupId = model.AccessGroupId;
+
 
             try
             {
-                _uow.Users.Add(applicationUser);
+                if (!model.Id.HasValue)
+                    _uow.Users.Add(applicationUser);
                 _uow.Complete();
                 return Ok();
             }
@@ -100,6 +103,7 @@ namespace Orion.Web.API.Controllers
         public IActionResult Login(LoginModel model)
         {
             var user = _uow.Users.GetByEmail(model.Email);
+
             if (user != null && _uow.Users.CheckPassword(user, model.Password))
             {
                 var tokenDescriptor = new SecurityTokenDescriptor
