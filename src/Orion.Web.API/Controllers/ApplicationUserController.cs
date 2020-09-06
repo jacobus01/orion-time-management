@@ -40,7 +40,7 @@ namespace Orion.Web.API.Controllers
         }
 
         [HttpPost]
-        [Route("CreateUser")]
+        [Route("CreateUpdateUser")]
         [Authorize]
         //POST : /api/ApplicationUser/CreateUser
         public IActionResult PostApplicationUser(ApplicationUserModel model)
@@ -49,7 +49,7 @@ namespace Orion.Web.API.Controllers
             //We need to determine if this is an add or update action
 
 
-            var applicationUser = model.Id.HasValue ? _uow.Users.SingleOrDefault(u => u.Id == model.Id) : new User();
+            var applicationUser = model.Id != 0 ? _uow.Users.SingleOrDefault(u => u.Id == model.Id) : new User();
 
 
             applicationUser.UserName = model.UserName;
@@ -68,7 +68,7 @@ namespace Orion.Web.API.Controllers
 
             try
             {
-                if (!model.Id.HasValue)
+                if (model.Id == 0)
                     _uow.Users.Add(applicationUser);
                 _uow.Complete();
                 return Ok();

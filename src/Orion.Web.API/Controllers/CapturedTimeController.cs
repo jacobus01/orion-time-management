@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orion.DAL.EF.Models.DB;
 using Orion.DAL.Repository.Interfaces;
+using Orion.Web.API.Models;
 
 namespace Orion.Web.API.Controllers
 {
@@ -21,22 +22,23 @@ namespace Orion.Web.API.Controllers
         }
 
         [HttpPost]
-        [Route("CreateCapturedTime")]
+        [Route("CreateUpdateCapturedTime")]
         [Authorize]
         //POST : /api/Task/CreateTask
-        public Object PostCapturedTime(Object model)
+        public IActionResult PostCapturedTime(CapturedTimeModel model)
         {
-            var capturedTime = new CapturedTime();
-            dynamic res = model;
-            capturedTime.Rate = res.Rate;
-            capturedTime.TaskId = res.TaskId;
-            capturedTime.UserId = res.UserId;
-            capturedTime.StartTime= res.StartTime;
-            capturedTime.EndTime = res.EndTime;
+
+            var capturedTime = model.Id.HasValue ? _uow.CapturedTimes.SingleOrDefault(u => u.Id == model.Id) : new CapturedTime();
+            capturedTime.Rate = model.Rate;
+            capturedTime.TaskId = model.TaskId;
+            capturedTime.UserId = model.UserId;
+            capturedTime.StartTime= model.StartTime;
+            capturedTime.EndTime = model.EndTime;
             try
             {
                 //TODO: Validate user has not worked more than 10 hours for the given date
-                _uow.CapturedTimes.Add(capturedTime);
+                if (!model.Id.HasValue)
+                    _uow.CapturedTimes.Add(capturedTime);
                 _uow.Complete();
                 return Ok();
             }
