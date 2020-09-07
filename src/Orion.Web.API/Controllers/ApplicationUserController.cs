@@ -7,10 +7,12 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Orion.Common.Library.Encryption;
@@ -26,9 +28,10 @@ namespace Orion.Web.API.Controllers
     public class ApplicationUserController : ControllerBase
     {
         private readonly IUnitOfWork _uow;
+        IHostingEnvironment _hostingEnvironment;
         ApplicationSettings _appSettings;
 
-        public ApplicationUserController(IUnitOfWork uow)
+        public ApplicationUserController(IUnitOfWork uow, IHostingEnvironment hostingEnvironment)
         {
             _uow = uow;
             ApplicationSettings settings = new ApplicationSettings();
@@ -37,6 +40,7 @@ namespace Orion.Web.API.Controllers
             settings.JWT_Secret = "1234567890123456";
             settings.Client_URL = "http://localhost:4200";
             _appSettings = settings;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpPost]
@@ -141,6 +145,21 @@ namespace Orion.Web.API.Controllers
             else
                 return BadRequest(new { message = "Username or password is incorrect." });
         }
+        [HttpGet("{id}")]
+        [Route("HasProfilePic")]
+        //GET : /api/ApplicationUser/ProfilePic
+        public IActionResult HasProfile([FromQuery] int id)
+        {
+            var user = _uow.Users.GetById(id);
+            if (user.ProfilePicture != null)
+            {
+                return Ok(new { message = true });
+            }
+            else
+            {
+                return Ok(new { message = false });
+            }
+        }
 
         [HttpGet("{id}")]
         [Route("ProfilePic")]
@@ -149,8 +168,13 @@ namespace Orion.Web.API.Controllers
         {
             var user = _uow.Users.GetById(id);
             if (user.ProfilePicture != null)
+            {
                 return File(user.ProfilePicture, "image/jpeg");
-            else return Ok("no profile picture");
+            }
+            else
+            {
+                return Ok(new { message = false });
+            }
         }
 
         [HttpPost, DisableRequestSizeLimit]
