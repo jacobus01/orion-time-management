@@ -38,5 +38,24 @@ namespace Orion.Web.API.Controllers
                 throw ex;
             }
         }
+
+        [HttpPost]
+        [Route("AccessGroupByUser")]
+        [Authorize]
+        //POST : /api/ApplicationUser/Users
+        public IActionResult GetAccessGroupByUser([FromBody] int UserId)
+        {
+            try
+            {
+                var result = _uow.AccessGroups.GetByUserId(UserId);
+                result.User = null;
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

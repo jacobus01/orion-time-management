@@ -7,5 +7,6 @@ namespace Orion.DAL.Repository.Interfaces
 {
     public interface IAccessGroupRepository: IRepository<AccessGroup>
     {
+        AccessGroup GetByUserId(int userId);
     }
 }
