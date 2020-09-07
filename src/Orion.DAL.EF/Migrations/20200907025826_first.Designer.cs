@@ -10,7 +10,7 @@ using Orion.DAL.EF.Models.DB;
 namespace Orion.DAL.EF.Migrations
 {
     [DbContext(typeof(OrionContext))]
-    [Migration("20200904022605_first")]
+    [Migration("20200907025826_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,20 +55,20 @@ namespace Orion.DAL.EF.Migrations
                         {
                             Id = 1,
                             AccessGroupName = "Admin",
-                            CreatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             IsDeleted = false,
-                            LastUpdatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1
                         },
                         new
                         {
                             Id = 2,
                             AccessGroupName = "User",
-                            CreatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             IsDeleted = false,
-                            LastUpdatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1
                         });
                 });
@@ -86,7 +86,7 @@ namespace Orion.DAL.EF.Migrations
                     b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("EndTime")
+                    b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
@@ -98,16 +98,16 @@ namespace Orion.DAL.EF.Migrations
                     b.Property<int?>("LastUpdatedBy")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("Rate")
+                    b.Property<decimal>("Rate")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<DateTime?>("StartTime")
+                    b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("TaskId")
+                    b.Property<int>("TaskId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -155,34 +155,34 @@ namespace Orion.DAL.EF.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             IsDeleted = false,
-                            LastUpdatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
-                            Rate = 0m,
+                            Rate = 25m,
                             RoleName = "Casual Employee Level 1"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             IsDeleted = false,
-                            LastUpdatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
-                            Rate = 0m,
+                            Rate = 50m,
                             RoleName = "Casual Employee Level 2"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             IsDeleted = false,
-                            LastUpdatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
-                            Rate = 0m,
+                            Rate = 50m,
                             RoleName = "Manager"
                         });
                 });
@@ -218,6 +218,19 @@ namespace Orion.DAL.EF.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Task");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedBy = 1,
+                            Duration = 1m,
+                            IsDeleted = false,
+                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedBy = 1,
+                            TaskName = "Default Task"
+                        });
                 });
 
             modelBuilder.Entity("Orion.DAL.EF.Models.DB.User", b =>
@@ -243,7 +256,7 @@ namespace Orion.DAL.EF.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .HasColumnName("email")
+                        .HasColumnName("Email")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmployeeNumber")
@@ -298,9 +311,9 @@ namespace Orion.DAL.EF.Migrations
                         {
                             Id = 1,
                             AccessGroupId = 1,
-                            AppointmentDate = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            AppointmentDate = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             ChangePasswordOnNextLogin = false,
-                            CreatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             Email = "admin@admin.com",
                             EmployeeNumber = "XXXXXXXXX",
@@ -308,7 +321,7 @@ namespace Orion.DAL.EF.Migrations
                             IsActive = true,
                             IsDeleted = false,
                             LastName = "Admin",
-                            LastUpdatedAt = new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
                             LockoutEnabled = false,
                             PasswordHash = "CWa/NbR02Squq2Np65dn4Q==",
@@ -322,12 +335,16 @@ namespace Orion.DAL.EF.Migrations
                     b.HasOne("Orion.DAL.EF.Models.DB.Task", "Task")
                         .WithMany("CapturedTime")
                         .HasForeignKey("TaskId")
-                        .HasConstraintName("FK_CapturedTime_Task");
+                        .HasConstraintName("FK_CapturedTime_Task")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Orion.DAL.EF.Models.DB.User", "User")
                         .WithMany("CapturedTime")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_CapturedTime_User");
+                        .HasConstraintName("FK_CapturedTime_User")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Orion.DAL.EF.Models.DB.User", b =>

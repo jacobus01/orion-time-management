@@ -113,7 +113,7 @@ namespace Orion.DAL.EF.Models.DB
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.Email).HasColumnName("email");
+                entity.Property(e => e.Email).HasColumnName("Email");
 
                 entity.Property(e => e.IsActive)
                     .IsRequired()
@@ -186,7 +186,7 @@ namespace Orion.DAL.EF.Models.DB
                 {
                     Id = 1,
                     RoleName = "Casual Employee Level 1",
-                    Rate = 0,
+                    Rate = 25,
                     CreatedAt = DateTime.Today,
                     CreatedBy = 1,
                     LastUpdatedAt = DateTime.Today,
@@ -197,7 +197,7 @@ namespace Orion.DAL.EF.Models.DB
                 {
                     Id = 2,
                     RoleName = "Casual Employee Level 2",
-                    Rate = 0,
+                    Rate = 50,
                     CreatedAt = DateTime.Today,
                     CreatedBy = 1,
                     LastUpdatedAt = DateTime.Today,
@@ -208,7 +208,20 @@ namespace Orion.DAL.EF.Models.DB
                 {
                     Id = 3,
                     RoleName = "Manager",
-                    Rate = 0,
+                    Rate = 50,
+                    CreatedAt = DateTime.Today,
+                    CreatedBy = 1,
+                    LastUpdatedAt = DateTime.Today,
+                    LastUpdatedBy = 1,
+                    IsDeleted = false
+                }
+                );
+            modelBuilder.Entity<Task>().HasData(
+                new Task
+                {
+                    Id = 1,
+                    TaskName = "Default Task",
+                    Duration = 1,
                     CreatedAt = DateTime.Today,
                     CreatedBy = 1,
                     LastUpdatedAt = DateTime.Today,

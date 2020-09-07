@@ -5,17 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200901121135_first.cs" />
-    <Compile Remove="Migrations\20200901121135_first.Designer.cs" />
-    <Compile Remove="Migrations\20200901121437_first.cs" />
-    <Compile Remove="Migrations\20200901121437_first.Designer.cs" />
-    <Compile Remove="Migrations\20200904015650_2.cs" />
-    <Compile Remove="Migrations\20200904015650_2.Designer.cs" />
-    <Compile Remove="Migrations\20200904015818_3.cs" />
-    <Compile Remove="Migrations\20200904015818_3.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="4.0.4" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />

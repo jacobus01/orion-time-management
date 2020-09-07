@@ -77,7 +77,7 @@ namespace Orion.DAL.EF.Migrations
                     UserName = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    email = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<string>(nullable: true),
                     ChangePasswordOnNextLogin = table.Column<bool>(nullable: true),
                     EmployeeNumber = table.Column<string>(nullable: true),
@@ -116,11 +116,11 @@ namespace Orion.DAL.EF.Migrations
                     LastUpdatedAt = table.Column<DateTime>(nullable: true),
                     LastUpdatedBy = table.Column<int>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    UserId = table.Column<int>(nullable: true),
-                    TaskId = table.Column<int>(nullable: true),
-                    Rate = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
-                    StartTime = table.Column<DateTime>(nullable: true),
-                    EndTime = table.Column<DateTime>(nullable: true)
+                    UserId = table.Column<int>(nullable: false),
+                    TaskId = table.Column<int>(nullable: false),
+                    Rate = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    StartTime = table.Column<DateTime>(nullable: false),
+                    EndTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -130,13 +130,13 @@ namespace Orion.DAL.EF.Migrations
                         column: x => x.TaskId,
                         principalTable: "Task",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CapturedTime_User",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -144,8 +144,8 @@ namespace Orion.DAL.EF.Migrations
                 columns: new[] { "Id", "AccessGroupName", "CreatedAt", "CreatedBy", "IsDeleted", "LastUpdatedAt", "LastUpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, "Admin", new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local), 1 },
-                    { 2, "User", new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local), 1 }
+                    { 1, "Admin", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1 },
+                    { 2, "User", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -153,15 +153,20 @@ namespace Orion.DAL.EF.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsDeleted", "LastUpdatedAt", "LastUpdatedBy", "Rate", "RoleName" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local), 1, 0m, "Casual Employee Level 1" },
-                    { 2, new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local), 1, 0m, "Casual Employee Level 2" },
-                    { 3, new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local), 1, 0m, "Manager" }
+                    { 1, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, 25m, "Casual Employee Level 1" },
+                    { 2, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, 50m, "Casual Employee Level 2" },
+                    { 3, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, 50m, "Manager" }
                 });
 
             migrationBuilder.InsertData(
+                table: "Task",
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Duration", "IsDeleted", "LastUpdatedAt", "LastUpdatedBy", "TaskName" },
+                values: new object[] { 1, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, 1m, false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, "Default Task" });
+
+            migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Id", "AccessGroupId", "AppointmentDate", "ChangePasswordOnNextLogin", "CreatedAt", "CreatedBy", "email", "EmployeeNumber", "FirstName", "IsActive", "IsDeleted", "LastName", "LastUpdatedAt", "LastUpdatedBy", "LockoutEnabled", "PasswordHash", "ProfilePicture", "RoleId", "UserName" },
-                values: new object[] { 1, 1, new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local), 1, "admin@admin.com", "XXXXXXXXX", "Root", true, false, "Admin", new DateTime(2020, 9, 4, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 1, "SuperUser" });
+                columns: new[] { "Id", "AccessGroupId", "AppointmentDate", "ChangePasswordOnNextLogin", "CreatedAt", "CreatedBy", "Email", "EmployeeNumber", "FirstName", "IsActive", "IsDeleted", "LastName", "LastUpdatedAt", "LastUpdatedBy", "LockoutEnabled", "PasswordHash", "ProfilePicture", "RoleId", "UserName" },
+                values: new object[] { 1, 1, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, "admin@admin.com", "XXXXXXXXX", "Root", true, false, "Admin", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 1, "SuperUser" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CapturedTime_TaskId",

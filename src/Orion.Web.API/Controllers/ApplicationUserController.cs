@@ -99,6 +99,24 @@ namespace Orion.Web.API.Controllers
         }
 
         [HttpPost]
+        [Route("User")]
+        [Authorize]
+        //POST : /api/ApplicationUser/Users
+        public IActionResult GetApplicationUser([FromBody] int UserId)
+        {
+            try
+            {
+                var result = _uow.Users.GetById(UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [HttpPost]
         [Route("Login")]
         public IActionResult Login(LoginModel model)
         {
@@ -127,10 +145,12 @@ namespace Orion.Web.API.Controllers
         [HttpGet("{id}")]
         [Route("ProfilePic")]
         //GET : /api/ApplicationUser/ProfilePic
-        public async Task<IActionResult> GetProfile([FromQuery]int id)
+        public IActionResult GetProfile([FromQuery]int id)
         {
             var user = _uow.Users.GetById(id);
-            return File(user.ProfilePicture, "image/jpeg");
+            if (user.ProfilePicture != null)
+                return File(user.ProfilePicture, "image/jpeg");
+            else return Ok("no profile picture");
         }
 
         [HttpPost, DisableRequestSizeLimit]
@@ -151,7 +171,6 @@ namespace Orion.Web.API.Controllers
                     }
 
                     //TODO:Just Check that the update takes place. For Unit testing to fix if there is an issue
-                    _uow.Users.Add(user);
                     _uow.Complete();
 
                     return Ok(new { result = "success" });

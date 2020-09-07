@@ -1,7 +1,9 @@
-﻿using Orion.DAL.EF.Models.DB;
+﻿using Microsoft.EntityFrameworkCore;
+using Orion.DAL.EF.Models.DB;
 using Orion.DAL.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Orion.DAL.Repository
@@ -14,6 +16,11 @@ namespace Orion.DAL.Repository
         public OrionContext OrionContext
         {
             get { return Context as OrionContext; }
+        }
+
+        public IEnumerable<CapturedTime> GetByUserIdAndDates(DateTime startdate, DateTime endDate, int userId)
+        {
+            return OrionContext.CapturedTime.Where<CapturedTime>(c => c.StartTime >= startdate && c.EndTime <= endDate && c.UserId == userId).Include(t => t.Task);
         }
     }
 }

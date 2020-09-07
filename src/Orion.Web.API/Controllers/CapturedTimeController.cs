@@ -11,7 +11,7 @@ using Orion.Web.API.Models;
 
 namespace Orion.Web.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CapturedTimeController : ControllerBase
     {
@@ -27,17 +27,18 @@ namespace Orion.Web.API.Controllers
         //POST : /api/Task/CreateTask
         public IActionResult PostCapturedTime(CapturedTimeModel model)
         {
+            _uow.SetActiveUserId(Int32.Parse(Request.Headers["CurrentUserId"]));
 
-            var capturedTime = model.Id.HasValue ? _uow.CapturedTimes.SingleOrDefault(u => u.Id == model.Id) : new CapturedTime();
-            capturedTime.Rate = model.Rate;
-            capturedTime.TaskId = model.TaskId;
-            capturedTime.UserId = model.UserId;
-            capturedTime.StartTime= model.StartTime;
-            capturedTime.EndTime = model.EndTime;
+            var capturedTime = model.Id != 0 ? _uow.CapturedTimes.SingleOrDefault(u => u.Id == model.Id) : new CapturedTime();
+            capturedTime.Rate = model.Rate.Value;
+            capturedTime.TaskId = model.TaskId.Value;
+            capturedTime.UserId = model.UserId.Value;
+            capturedTime.StartTime= DateTime.Parse(model.StartTime);
+            capturedTime.EndTime = DateTime.Parse(model.EndTime);
             try
             {
                 //TODO: Validate user has not worked more than 10 hours for the given date
-                if (!model.Id.HasValue)
+                if (model.Id == 0)
                     _uow.CapturedTimes.Add(capturedTime);
                 _uow.Complete();
                 return Ok();
@@ -53,13 +54,43 @@ namespace Orion.Web.API.Controllers
         [Route("CapturedTimes")]
         [Authorize]
         //POST : /api/Task/Tasks
-        public IActionResult GetTaskList()
+        public IActionResult GetCapturedTimesList()
         {
 
             try
             {
                 var result = _uow.CapturedTimes.GetAll();
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [Route("CapturedTimesPerUser")]
+        [Authorize]
+        //POST : /api/Task/Tasks
+        public IActionResult GetCapturedTimesPerUserList(CapturedTimePerUserResponse model)
+        {
+
+            try
+            {
+                var capturedTimes = _uow.CapturedTimes.GetByUserIdAndDates(DateTime.Parse(model.StartDate), DateTime.Parse(model.EndDate), model.UserId);
+                var newList = new List<dynamic>();
+                foreach(var time in capturedTimes)
+                {
+                    newList.Add( new { Id = time.Id,
+                    UserId = time.UserId,
+                    Rate = time.Rate,
+                    StartTime = time.StartTime,
+                    EndTime = time.EndTime,
+                    TaskName = time.Task.TaskName
+                    });
+                }
+                return Ok(newList);
             }
             catch (Exception ex)
             {

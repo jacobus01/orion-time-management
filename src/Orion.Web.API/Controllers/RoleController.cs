@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Orion.DAL.EF.Models.DB;
 using Orion.DAL.Repository.Interfaces;
+using Orion.Web.API.Models;
 
 namespace Orion.Web.API.Controllers
 {
@@ -31,6 +33,54 @@ namespace Orion.Web.API.Controllers
             {
                 var result = _uow.Roles.GetAll();
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [Route("Role")]
+        [Authorize]
+        //POST : /api/ApplicationUser/Users
+        public IActionResult GetRole([FromBody] int Id)
+        {
+            try
+            {
+                var result = _uow.Roles.SingleOrDefault(r => r.Id == Id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [Route("CreateUpdateRole")]
+        [Authorize]
+        //POST : /api/ApplicationUser/CreateUser
+        public IActionResult PostTask(RoleModel model)
+        {
+            _uow.SetActiveUserId(Int32.Parse(Request.Headers["CurrentUserId"]));
+            //We need to determine if this is an add or update action
+
+
+            var role = model.Id != 0 ? _uow.Roles.SingleOrDefault(u => u.Id == model.Id) : new Role();
+
+
+            role.RoleName = model.RoleName;
+            role.Rate = model.Rate;
+
+            try
+            {
+                if (model.Id == 0)
+                    _uow.Roles.Add(role);
+                _uow.Complete();
+                return Ok();
             }
             catch (Exception ex)
             {

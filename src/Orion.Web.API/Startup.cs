@@ -44,7 +44,8 @@ namespace Orion.Web.API
             //Inject AppSettings
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
 
             services.AddDbContext<OrionContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("Orion")));

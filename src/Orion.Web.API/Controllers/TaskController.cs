@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Orion.DAL.EF.Models.DB;
 using Orion.DAL.Repository.Interfaces;
+using Orion.Web.API.Models;
+using Task = Orion.DAL.EF.Models.DB.Task;
 
 namespace Orion.Web.API.Controllers
 {
@@ -20,18 +23,25 @@ namespace Orion.Web.API.Controllers
         }
 
         [HttpPost]
-        [Route("CreateTask")]
+        [Route("CreateUpdateTask")]
         [Authorize]
-        //POST : /api/Task/CreateTask
-        public Object PostTask(Object model)
+        //POST : /api/ApplicationUser/CreateUser
+        public IActionResult PostTask(TaskModel model)
         {
-            var task = new DAL.EF.Models.DB.Task();
-            dynamic res = model;
-            task.TaskName = res.TaskName;
-            task.Duration = res.Duration;
+            _uow.SetActiveUserId(Int32.Parse(Request.Headers["CurrentUserId"]));
+            //We need to determine if this is an add or update action
+
+
+            var task = model.Id != 0 ? _uow.Tasks.SingleOrDefault(u => u.Id == model.Id) : new Task();
+
+
+            task.TaskName = model.TaskName;
+            task.Duration = model.Duration;
+
             try
             {
-                _uow.Tasks.Add(task);
+                if (model.Id == 0)
+                    _uow.Tasks.Add(task);
                 _uow.Complete();
                 return Ok();
             }
@@ -52,6 +62,24 @@ namespace Orion.Web.API.Controllers
             try
             {
                 var result = _uow.Tasks.GetAll();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [Route("Task")]
+        [Authorize]
+        //POST : /api/ApplicationUser/Users
+        public IActionResult GetTask([FromBody] int Id)
+        {
+            try
+            {
+                var result = _uow.Roles.SingleOrDefault(r => r.Id == Id);
                 return Ok(result);
             }
             catch (Exception ex)
