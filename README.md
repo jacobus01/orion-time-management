@@ -36,10 +36,10 @@ In Progress:
     exception handling
     validation client and server side
     CI/CD Pipeline
+    state services for angular
 
 Still Outstanding:
 
-    state services for angular
     signalR
     async pattern
     Redux Store pattern
