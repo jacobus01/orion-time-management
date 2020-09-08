@@ -27,19 +27,19 @@ Features
     Swagger
     custom encryption (AES)
     SOLID Principles
+    Seed Data
+    styling
     
 In Progress:
 
+    unit tests and mocking angular as well as API
     exception handling
-    styling
-    Seed Data
     validation client and server side
     CI/CD Pipeline
 
 Still Outstanding:
 
     state services for angular
-    unit tests and mocking angular as well as API
     signalR
     async pattern
     Redux Store pattern
