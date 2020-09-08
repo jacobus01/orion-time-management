@@ -20,7 +20,11 @@ namespace Orion.DAL.Repository
 
         public IEnumerable<CapturedTime> GetByUserIdAndDates(DateTime startdate, DateTime endDate, int userId)
         {
-            return OrionContext.CapturedTime.Where<CapturedTime>(c => c.StartTime >= startdate && c.EndTime <= endDate && c.UserId == userId).Include(t => t.Task);
+            return OrionContext.CapturedTime.Where<CapturedTime>(c => c.StartTime >= startdate && c.EndTime <= endDate && c.UserId == userId && c.IsDeleted == false).Include(t => t.Task);
+        }
+        public IEnumerable<CapturedTime> GetAllActive()
+        {
+            return OrionContext.CapturedTime.Where<CapturedTime>(c => c.IsDeleted == false);
         }
     }
 }

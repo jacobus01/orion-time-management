@@ -8,5 +8,7 @@ namespace Orion.DAL.Repository.Interfaces
     public interface ICapturedTimeRepository: IRepository<CapturedTime>
     {
         IEnumerable<CapturedTime> GetByUserIdAndDates(DateTime startdate, DateTime endDate, int userId);
+
+        IEnumerable<CapturedTime> GetAllActive();
     }
 }

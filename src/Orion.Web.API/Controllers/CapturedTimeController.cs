@@ -87,10 +87,34 @@ namespace Orion.Web.API.Controllers
                     Rate = time.Rate,
                     StartTime = time.StartTime,
                     EndTime = time.EndTime,
-                    TaskName = time.Task.TaskName
+                    TaskName = time.Task.TaskName,
+                    TaskId = time.TaskId
                     });
                 }
                 return Ok(newList);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [Route("DeleteCapturedTime")]
+        [Authorize]
+        //POST : /api/Task/CreateTask
+        public IActionResult DeleteCapturedTime([FromBody] int Id)
+        {
+            _uow.SetActiveUserId(Int32.Parse(Request.Headers["CurrentUserId"]));
+
+            var capturedTime = _uow.CapturedTimes.SingleOrDefault(u => u.Id == Id);
+            try
+            {
+
+                _uow.CapturedTimes.Remove(capturedTime);
+                _uow.Complete();
+                return Ok();
             }
             catch (Exception ex)
             {
