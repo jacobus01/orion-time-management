@@ -53,20 +53,20 @@ namespace Orion.DAL.EF.Migrations
                         {
                             Id = 1,
                             AccessGroupName = "Admin",
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             IsDeleted = false,
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1
                         },
                         new
                         {
                             Id = 2,
                             AccessGroupName = "User",
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             IsDeleted = false,
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1
                         });
                 });
@@ -77,6 +77,9 @@ namespace Orion.DAL.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Color")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -153,10 +156,10 @@ namespace Orion.DAL.EF.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             IsDeleted = false,
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
                             Rate = 25m,
                             RoleName = "Casual Employee Level 1"
@@ -164,10 +167,10 @@ namespace Orion.DAL.EF.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             IsDeleted = false,
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
                             Rate = 50m,
                             RoleName = "Casual Employee Level 2"
@@ -175,10 +178,10 @@ namespace Orion.DAL.EF.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             IsDeleted = false,
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
                             Rate = 50m,
                             RoleName = "Manager"
@@ -221,11 +224,11 @@ namespace Orion.DAL.EF.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             Duration = 1m,
                             IsDeleted = false,
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
                             TaskName = "Default Task"
                         });
@@ -309,9 +312,9 @@ namespace Orion.DAL.EF.Migrations
                         {
                             Id = 1,
                             AccessGroupId = 1,
-                            AppointmentDate = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            AppointmentDate = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             ChangePasswordOnNextLogin = false,
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             Email = "admin@admin.com",
                             EmployeeNumber = "XXXXXXXXX",
@@ -319,7 +322,7 @@ namespace Orion.DAL.EF.Migrations
                             IsActive = true,
                             IsDeleted = false,
                             LastName = "Admin",
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
                             LockoutEnabled = false,
                             PasswordHash = "CWa/NbR02Squq2Np65dn4Q==",
@@ -330,9 +333,9 @@ namespace Orion.DAL.EF.Migrations
                         {
                             Id = 2,
                             AccessGroupId = 1,
-                            AppointmentDate = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            AppointmentDate = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             ChangePasswordOnNextLogin = false,
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             Email = "jan.groenewald@orion.com",
                             EmployeeNumber = "EMP00001",
@@ -340,7 +343,7 @@ namespace Orion.DAL.EF.Migrations
                             IsActive = true,
                             IsDeleted = false,
                             LastName = "Groenewald",
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
                             LockoutEnabled = false,
                             PasswordHash = "CWa/NbR02Squq2Np65dn4Q==",
@@ -351,9 +354,9 @@ namespace Orion.DAL.EF.Migrations
                         {
                             Id = 3,
                             AccessGroupId = 2,
-                            AppointmentDate = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            AppointmentDate = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             ChangePasswordOnNextLogin = false,
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             Email = "amanda.beukes@orion.com",
                             EmployeeNumber = "EMP00002",
@@ -361,7 +364,7 @@ namespace Orion.DAL.EF.Migrations
                             IsActive = true,
                             IsDeleted = false,
                             LastName = "Beukes",
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
                             LockoutEnabled = false,
                             PasswordHash = "CWa/NbR02Squq2Np65dn4Q==",
@@ -372,9 +375,9 @@ namespace Orion.DAL.EF.Migrations
                         {
                             Id = 4,
                             AccessGroupId = 2,
-                            AppointmentDate = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            AppointmentDate = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             ChangePasswordOnNextLogin = false,
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             Email = "Sandra.Swart@orion.com",
                             EmployeeNumber = "EMP00003",
@@ -382,7 +385,7 @@ namespace Orion.DAL.EF.Migrations
                             IsActive = true,
                             IsDeleted = false,
                             LastName = "Swart",
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
                             LockoutEnabled = false,
                             PasswordHash = "CWa/NbR02Squq2Np65dn4Q==",
@@ -393,9 +396,9 @@ namespace Orion.DAL.EF.Migrations
                         {
                             Id = 5,
                             AccessGroupId = 2,
-                            AppointmentDate = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            AppointmentDate = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             ChangePasswordOnNextLogin = false,
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             Email = "Carl.Ross@orion.com",
                             EmployeeNumber = "EMP00004",
@@ -403,7 +406,7 @@ namespace Orion.DAL.EF.Migrations
                             IsActive = true,
                             IsDeleted = false,
                             LastName = "Ross",
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
                             LockoutEnabled = false,
                             PasswordHash = "CWa/NbR02Squq2Np65dn4Q==",
@@ -414,9 +417,9 @@ namespace Orion.DAL.EF.Migrations
                         {
                             Id = 6,
                             AccessGroupId = 2,
-                            AppointmentDate = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            AppointmentDate = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             ChangePasswordOnNextLogin = false,
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             Email = "Jackie.Oswalt@orion.com",
                             EmployeeNumber = "EMP00005",
@@ -424,7 +427,7 @@ namespace Orion.DAL.EF.Migrations
                             IsActive = true,
                             IsDeleted = false,
                             LastName = "Oswalt",
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
                             LockoutEnabled = false,
                             PasswordHash = "CWa/NbR02Squq2Np65dn4Q==",
@@ -435,9 +438,9 @@ namespace Orion.DAL.EF.Migrations
                         {
                             Id = 7,
                             AccessGroupId = 1,
-                            AppointmentDate = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            AppointmentDate = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             ChangePasswordOnNextLogin = false,
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             Email = "Loy.McDonald@orion.com",
                             EmployeeNumber = "EMP00006",
@@ -445,7 +448,7 @@ namespace Orion.DAL.EF.Migrations
                             IsActive = true,
                             IsDeleted = false,
                             LastName = "McDonald",
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
                             LockoutEnabled = false,
                             PasswordHash = "CWa/NbR02Squq2Np65dn4Q==",
@@ -456,9 +459,9 @@ namespace Orion.DAL.EF.Migrations
                         {
                             Id = 8,
                             AccessGroupId = 2,
-                            AppointmentDate = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            AppointmentDate = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             ChangePasswordOnNextLogin = false,
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             Email = "Grace.Winters@orion.com",
                             EmployeeNumber = "EMP00007",
@@ -466,7 +469,7 @@ namespace Orion.DAL.EF.Migrations
                             IsActive = true,
                             IsDeleted = false,
                             LastName = "Winters",
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
                             LockoutEnabled = false,
                             PasswordHash = "CWa/NbR02Squq2Np65dn4Q==",
@@ -477,9 +480,9 @@ namespace Orion.DAL.EF.Migrations
                         {
                             Id = 9,
                             AccessGroupId = 2,
-                            AppointmentDate = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            AppointmentDate = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             ChangePasswordOnNextLogin = false,
-                            CreatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             CreatedBy = 1,
                             Email = "Gert.Lombard@orion.com",
                             EmployeeNumber = "EMP00008",
@@ -487,7 +490,7 @@ namespace Orion.DAL.EF.Migrations
                             IsActive = true,
                             IsDeleted = false,
                             LastName = "Lombard",
-                            LastUpdatedAt = new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastUpdatedAt = new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             LastUpdatedBy = 1,
                             LockoutEnabled = false,
                             PasswordHash = "CWa/NbR02Squq2Np65dn4Q==",

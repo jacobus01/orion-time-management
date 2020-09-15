@@ -92,7 +92,7 @@ namespace Orion.Web.API.Controllers
         {
             try
             {
-                var result = _uow.Users.GetAll();
+                var result = _uow.Users.GetAllNotDeleted();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -145,12 +145,11 @@ namespace Orion.Web.API.Controllers
             else
                 return BadRequest(new { message = "Username or password is incorrect." });
         }
-        [HttpGet("{id}")]
-        [Route("HasProfilePic")]
+        [HttpGet("{idnt}")]
         //GET : /api/ApplicationUser/ProfilePic
-        public IActionResult HasProfile([FromQuery] int id)
+        public IActionResult HasProfilePic([FromQuery] int idnt)
         {
-            var user = _uow.Users.GetById(id);
+            var user = _uow.Users.GetById(idnt);
             if (user.ProfilePicture != null)
             {
                 return Ok(new { message = true });
@@ -161,54 +160,102 @@ namespace Orion.Web.API.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        [Route("ProfilePic")]
-        //GET : /api/ApplicationUser/ProfilePic
-        public IActionResult GetProfile([FromQuery]int id)
-        {
-            var user = _uow.Users.GetById(id);
-            if (user.ProfilePicture != null)
-            {
-                return File(user.ProfilePicture, "image/jpeg");
-            }
-            else
-            {
-                return Ok(new { message = false });
-            }
-        }
-
-        [HttpPost, DisableRequestSizeLimit]
-        [Route("UploadImage")]
+        [HttpPost]
+        [Route("DeleteUser")]
         [Authorize]
-        public IActionResult Upload()
+        //POST : /api/ApplicationUser/CreateUser
+        public IActionResult DeleteApplicationUser([FromBody] int UserId)
         {
+            _uow.SetActiveUserId(Int32.Parse(Request.Headers["CurrentUserId"]));
+            //We need to determine if this is an add or update action
+
+
+            var applicationUser = _uow.Users.SingleOrDefault(u => u.Id == UserId);
+
             try
             {
-                var file = Request.Form.Files[0];
-                var user = _uow.Users.GetById(Int32.Parse(file.FileName));
-                if (file.Length > 0)
-                {
-                    using (var stream = new MemoryStream())
-                    {
-                        file.CopyTo(stream);
-                        user.ProfilePicture = stream.ToArray();
-                    }
-
-                    //TODO:Just Check that the update takes place. For Unit testing to fix if there is an issue
-                    _uow.Complete();
-
-                    return Ok(new { result = "success" });
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                _uow.Users.Remove(applicationUser);
+                _uow.Complete();
+                return Ok();
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex}");
+
+                throw ex;
             }
         }
+
+        [HttpPost]
+        [Route("UserNameUnused")]
+        [Authorize]
+        //POST : /api/ApplicationUser/Users
+        public IActionResult IsUserNameUnused(object response)
+        {
+            var username = response.ToString();
+            try
+            {
+                var result = _uow.Users.IsUnusedUserName(username);
+                return Ok(new { IsUserNameUnused = result });
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        [Route("TotalEmployees")]
+        [Authorize]
+        //POST : /api/ApplicationUser/Users
+        public IActionResult TotalUsers()
+        {
+            try
+            {
+                var result = _uow.Users.GetTotal();
+                return Ok(new { TotalEmployees = result });
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        [Route("EmployeesWithSubs")]
+        [Authorize]
+        //POST : /api/ApplicationUser/Users
+        public IActionResult UsersWithSubs()
+        {
+            try
+            {
+                var result = _uow.Users.GetAllWithSubs();
+                var newList = new List<dynamic>();
+                foreach (var user in result)
+                {
+                    newList.Add(new
+                    {
+                        Id = user.Id,
+                        RoleId = user.Role.Id,
+                        RoleName = user.Role.RoleName,
+                        AccessGroupId = user.AccessGroup.Id,
+                        AccessGroupName = user.AccessGroup.AccessGroupName,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        ProfilePicUploaded = user.ProfilePicture != null,
+                        IsActive = user.IsActive
+                    });
+                }
+                return Ok( newList);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
     }
 }
 

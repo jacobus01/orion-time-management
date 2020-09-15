@@ -60,6 +60,24 @@ namespace Orion.Web.API.Controllers
         }
 
         [HttpPost]
+        [Route("RolePerUser")]
+        [Authorize]
+        //POST : /api/ApplicationUser/Users
+        public IActionResult GetRolePerUser([FromBody] int UserId)
+        {
+            try
+            {
+                var result = _uow.Roles.GetRolePerUserId(UserId);
+                return Ok(new { result.Id, result.RoleName,result.Rate});
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [HttpPost]
         [Route("CreateUpdateRole")]
         [Authorize]
         //POST : /api/ApplicationUser/CreateUser

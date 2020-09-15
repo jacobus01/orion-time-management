@@ -1,4 +1,5 @@
-﻿using Orion.Common.Library.Encryption;
+﻿using Microsoft.EntityFrameworkCore;
+using Orion.Common.Library.Encryption;
 using Orion.DAL.EF.Models.DB;
 using Orion.DAL.Repository.Interfaces;
 using System;
@@ -17,12 +18,12 @@ namespace Orion.DAL.Repository
 
         public User GetByEmail(string email)
         {
-            return OrionContext.User.SingleOrDefault(e => e.Email == email);
+            return OrionContext.User.SingleOrDefault(e => e.Email == email && e.IsDeleted == false);
         }
 
         public User GetById(int id)
         {
-            return OrionContext.User.SingleOrDefault(e => e.Id == id);
+            return OrionContext.User.SingleOrDefault(e => e.Id == id && e.IsDeleted == false);
         }
 
         //TODO: This check should not happen here and needs to be put in a helper class
@@ -30,6 +31,26 @@ namespace Orion.DAL.Repository
         {
             string decryptedPassword = Cipher.Decrypt(user.PasswordHash, Cipher.orionSalt);
             return password == decryptedPassword;
+        }
+
+        public IEnumerable<User> GetAllNotDeleted()
+        {
+            return OrionContext.User.Where(u => u.IsDeleted == false);
+        }
+
+        public bool IsUnusedUserName(string userName)
+        {
+            return OrionContext.User.Any(u => u.IsDeleted == false && u.UserName == userName);
+        }
+
+        public int GetTotal()
+        {
+            return OrionContext.User.Count(u => u.IsDeleted == false);
+        }
+
+        public IEnumerable<User> GetAllWithSubs()
+        {
+            return OrionContext.User.Where(u => u.IsDeleted == false).Include(r => r.Role).Include(a => a.AccessGroup);
         }
 
         public OrionContext OrionContext

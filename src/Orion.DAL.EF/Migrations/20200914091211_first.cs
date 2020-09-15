@@ -118,6 +118,7 @@ namespace Orion.DAL.EF.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
                     TaskId = table.Column<int>(nullable: false),
+                    Color = table.Column<int>(nullable: false),
                     Rate = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
                     EndTime = table.Column<DateTime>(nullable: false)
@@ -144,8 +145,8 @@ namespace Orion.DAL.EF.Migrations
                 columns: new[] { "Id", "AccessGroupName", "CreatedAt", "CreatedBy", "IsDeleted", "LastUpdatedAt", "LastUpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, "Admin", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1 },
-                    { 2, "User", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1 }
+                    { 1, "Admin", new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1 },
+                    { 2, "User", new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -153,30 +154,30 @@ namespace Orion.DAL.EF.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsDeleted", "LastUpdatedAt", "LastUpdatedBy", "Rate", "RoleName" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, 25m, "Casual Employee Level 1" },
-                    { 2, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, 50m, "Casual Employee Level 2" },
-                    { 3, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, 50m, "Manager" }
+                    { 1, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, 25m, "Casual Employee Level 1" },
+                    { 2, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, 50m, "Casual Employee Level 2" },
+                    { 3, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, 50m, "Manager" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Task",
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "Duration", "IsDeleted", "LastUpdatedAt", "LastUpdatedBy", "TaskName" },
-                values: new object[] { 1, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, 1m, false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, "Default Task" });
+                values: new object[] { 1, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, 1m, false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, "Default Task" });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "AccessGroupId", "AppointmentDate", "ChangePasswordOnNextLogin", "CreatedAt", "CreatedBy", "Email", "EmployeeNumber", "FirstName", "IsActive", "IsDeleted", "LastName", "LastUpdatedAt", "LastUpdatedBy", "LockoutEnabled", "PasswordHash", "ProfilePicture", "RoleId", "UserName" },
                 values: new object[,]
                 {
-                    { 3, 2, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, "amanda.beukes@orion.com", "EMP00002", "Amanda", true, false, "Beukes", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 1, "Amanda01" },
-                    { 6, 2, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, "Jackie.Oswalt@orion.com", "EMP00005", "Jackie", true, false, "Oswalt", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 1, "JackieO" },
-                    { 4, 2, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, "Sandra.Swart@orion.com", "EMP00003", "Sandra", true, false, "Swart", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 2, "SandyS" },
-                    { 5, 2, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, "Carl.Ross@orion.com", "EMP00004", "Carl", true, false, "Ross", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 2, "Carl001" },
-                    { 8, 2, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, "Grace.Winters@orion.com", "EMP00007", "Grace", true, false, "Winters", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 2, "Winters01" },
-                    { 9, 2, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, "Gert.Lombard@orion.com", "EMP00008", "Gert", true, false, "Lombard", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 2, "lombard01" },
-                    { 1, 1, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, "admin@admin.com", "XXXXXXXXX", "Root", true, false, "Admin", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 3, "SuperUser" },
-                    { 2, 1, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, "jan.groenewald@orion.com", "EMP00001", "Jan", true, false, "Groenewald", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 3, "JGroenewald" },
-                    { 7, 1, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, "Loy.McDonald@orion.com", "EMP00006", "Loy", true, false, "McDonald", new DateTime(2020, 9, 7, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 3, "LMcD01" }
+                    { 3, 2, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, "amanda.beukes@orion.com", "EMP00002", "Amanda", true, false, "Beukes", new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 1, "Amanda01" },
+                    { 6, 2, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, "Jackie.Oswalt@orion.com", "EMP00005", "Jackie", true, false, "Oswalt", new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 1, "JackieO" },
+                    { 4, 2, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, "Sandra.Swart@orion.com", "EMP00003", "Sandra", true, false, "Swart", new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 2, "SandyS" },
+                    { 5, 2, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, "Carl.Ross@orion.com", "EMP00004", "Carl", true, false, "Ross", new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 2, "Carl001" },
+                    { 8, 2, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, "Grace.Winters@orion.com", "EMP00007", "Grace", true, false, "Winters", new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 2, "Winters01" },
+                    { 9, 2, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, "Gert.Lombard@orion.com", "EMP00008", "Gert", true, false, "Lombard", new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 2, "lombard01" },
+                    { 1, 1, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, "admin@admin.com", "XXXXXXXXX", "Root", true, false, "Admin", new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 3, "SuperUser" },
+                    { 2, 1, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, "jan.groenewald@orion.com", "EMP00001", "Jan", true, false, "Groenewald", new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 3, "JGroenewald" },
+                    { 7, 1, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, "Loy.McDonald@orion.com", "EMP00006", "Loy", true, false, "McDonald", new DateTime(2020, 9, 14, 0, 0, 0, 0, DateTimeKind.Local), 1, false, "CWa/NbR02Squq2Np65dn4Q==", null, 3, "LMcD01" }
                 });
 
             migrationBuilder.CreateIndex(

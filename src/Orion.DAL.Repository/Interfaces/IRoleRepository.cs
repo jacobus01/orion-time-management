@@ -7,6 +7,7 @@ namespace Orion.DAL.Repository.Interfaces
 {
     public interface IRoleRepository : IRepository<Role>
     {
+        Role GetRolePerUserId(int userId);
 
     }
 }
