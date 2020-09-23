@@ -83,5 +83,20 @@ namespace Orion.DAL.Repository
             }
             return totalHours;
         }
+
+        //This overload is for when a captured time is updated
+        public decimal GetCapturefTimePerUserPerDate(DateTime date, int userId, int excludeId)
+        {
+            decimal totalHours = 0.0M;
+            DateTime startOfDay = new DateTime(date.Year, date.Month, date.Day);
+            DateTime nextDay = startOfDay.AddDays(1);
+            var capturedTimes = OrionContext.CapturedTime.Where<CapturedTime>(c => c.StartTime >= startOfDay && c.EndTime < nextDay && c.UserId == userId && c.IsDeleted == false && c.Id != excludeId).ToList();
+            foreach (var time in capturedTimes)
+            {
+                TimeSpan dateDiff = time.EndTime - time.StartTime;
+                totalHours += Decimal.Parse(dateDiff.TotalHours.ToString());
+            }
+            return totalHours;
+        }
     }
 }

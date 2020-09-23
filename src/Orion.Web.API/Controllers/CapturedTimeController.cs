@@ -59,11 +59,17 @@ namespace Orion.Web.API.Controllers
             capturedTime.Color = model.Color.Value;
             try
             {
-                //TODO: Validate user has not worked more than 10 hours for the given date
-                if (model.Id == 0)
-                    _uow.CapturedTimes.Add(capturedTime);
-                _uow.Complete();
-                return Ok(new{ newId = capturedTime.Id});
+                if(isValidTime(model, model.Id.Value !=0))
+                {
+                    if (model.Id == 0)
+                        _uow.CapturedTimes.Add(capturedTime);
+                    _uow.Complete();
+                    return Ok(new { newId = capturedTime.Id });
+                }
+                else
+                {
+                    return BadRequest(new { message = "Captured time would exceed maximum of 10 hours a day" });
+                }
             }
             catch (Exception ex)
             {
@@ -79,8 +85,8 @@ namespace Orion.Web.API.Controllers
             var endDate = DateTime.Parse(model.EndTime);
             if (!isUpdate)
                 hoursWorked = _uow.CapturedTimes.GetCapturefTimePerUserPerDate(startDate, model.UserId.Value);
-            //else
-            //    hoursWorked = _uow.CapturedTimes.GetCapturefTimePerUserPerDate(startDate, model.UserId.Value, int excludeId);
+            else
+                hoursWorked = _uow.CapturedTimes.GetCapturefTimePerUserPerDate(startDate, model.UserId.Value, model.Id.Value);
 
             TimeSpan dateDiff = endDate - startDate;
             hoursWorked += decimal.Parse(dateDiff.TotalHours.ToString());

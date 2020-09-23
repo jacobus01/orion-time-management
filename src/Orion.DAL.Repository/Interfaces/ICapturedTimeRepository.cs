@@ -20,5 +20,7 @@ namespace Orion.DAL.Repository.Interfaces
         decimal GetTotalPayPerDateRangePerUserId(DateTime startdate, DateTime endDate, int userId);
 
         decimal GetCapturefTimePerUserPerDate(DateTime date, int userId);
+
+        decimal GetCapturefTimePerUserPerDate(DateTime date, int userId, int excludeId);
     }
 }
