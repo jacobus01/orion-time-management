@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Orion.DAL.Repository.Interfaces;
+using System;
 
 namespace Orion.Web.API.Controllers
 {
+    //You must use attribute routing for any controllers that you want represented in your Swagger document(s):
     [Route("[controller]")]
     [ApiController]
     public class AccessGroupController : ControllerBase
@@ -26,7 +23,6 @@ namespace Orion.Web.API.Controllers
         //POST : /api/ApplicationUser/Users
         public IActionResult GetAccessGroupList()
         {
-
             try
             {
                 var result = _uow.AccessGroups.GetAll();
@@ -34,7 +30,6 @@ namespace Orion.Web.API.Controllers
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
@@ -53,7 +48,6 @@ namespace Orion.Web.API.Controllers
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

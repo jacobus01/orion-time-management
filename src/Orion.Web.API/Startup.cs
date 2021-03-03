@@ -24,6 +24,7 @@ using Autofac.Extensions.DependencyInjection;
 using Orion.DAL.Repository.Interfaces;
 using Orion.DAL.Repository;
 using Microsoft.AspNetCore.Http.Features;
+using Orion.Web.API.Interfaces;
 
 namespace Orion.Web.API
 {
@@ -55,8 +56,8 @@ namespace Orion.Web.API
             services.AddSwaggerGen();
 
             //Jwt Authentication
-
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
+            var allowedService = Configuration["ApplicationSettings:AllowedServiceURL"].ToString();
 
             services.Configure<FormOptions>(o => {
                 o.ValueLengthLimit = int.MaxValue;
@@ -72,13 +73,16 @@ namespace Orion.Web.API
             }).AddJwtBearer(x => {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = false;
-                x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidIssuer = allowedService,
+                    ValidAudience = allowedService,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ClockSkew = TimeSpan.Zero
                 };
             });
         }
@@ -90,6 +94,8 @@ namespace Orion.Web.API
             // for you.
             builder.RegisterType<UnitOfWork>().
             As<IUnitOfWork>();
+            builder.RegisterType<TokenService>().
+            As<ITokenService>();
             builder.RegisterType<AccessGroupRepository>().
             As<IAccessGroupRepository>();
             builder.RegisterType<CapturedTimeRepository>().
@@ -108,6 +114,7 @@ namespace Orion.Web.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+            var clientUrl = Configuration["ApplicationSettings:Client_URL"].ToString();
 
             app.Use(async (ctx, next) =>
             {
@@ -125,7 +132,7 @@ namespace Orion.Web.API
 
             //app.UseHttpsRedirection();
             app.UseCors(builder =>
-            builder.WithOrigins("http://localhost:4200")
+            builder.WithOrigins(clientUrl)
             .AllowAnyHeader()
             .AllowAnyMethod()
 

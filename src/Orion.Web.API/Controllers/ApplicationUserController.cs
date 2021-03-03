@@ -14,33 +14,41 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Orion.Common.Library.Encryption;
 using Orion.DAL.EF.Models.DB;
 using Orion.DAL.Repository;
 using Orion.DAL.Repository.Interfaces;
 using Orion.Web.API.Models;
+using Orion.Web.API.Interfaces;
 
 namespace Orion.Web.API.Controllers
 {
+    //You must use attribute routing for any controllers that you want represented in your Swagger document(s):
     [Route("[controller]")]
     [ApiController]
     public class ApplicationUserController : ControllerBase
     {
         private readonly IUnitOfWork _uow;
         IHostingEnvironment _hostingEnvironment;
-        ApplicationSettings _appSettings;
+        private ApplicationSettings _appSettings;
+        private readonly IConfiguration _config;
+        private readonly ITokenService _tokenService;
 
-        public ApplicationUserController(IUnitOfWork uow, IHostingEnvironment hostingEnvironment)
+        public ApplicationUserController(IUnitOfWork uow, IHostingEnvironment hostingEnvironment, IConfiguration config, ITokenService tokenService)
         {
             _uow = uow;
+            _config = config;
             ApplicationSettings settings = new ApplicationSettings();
 
             //TODO fix bug preventing settings issue
-            settings.JWT_Secret = "1234567890123456";
-            settings.Client_URL = "http://localhost:4200";
+            settings.JWT_Secret = _config.GetSection("ApplicationSettings").GetSection("JWT_Secret").Value;
+            settings.Client_URL = _config.GetSection("ApplicationSettings").GetSection("Client_URL").Value;
+            settings.AllowedServiceURL = _config.GetSection("ApplicationSettings").GetSection("AllowedServiceURL").Value;
             _appSettings = settings;
             _hostingEnvironment = hostingEnvironment;
+            _tokenService = tokenService;
         }
 
         [HttpPost]
@@ -128,24 +136,69 @@ namespace Orion.Web.API.Controllers
 
             if (user != null && _uow.Users.CheckPassword(user, model.Password))
             {
-                var tokenDescriptor = new SecurityTokenDescriptor
+                var claims = new List<Claim>();
+                claims.Add(new Claim("UserID", user.Id.ToString()));
+
+
+                var accessToken = _tokenService.GenerateAccessToken(claims);
+                var refreshToken = _tokenService.GenerateRefreshToken();
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpiryTime = DateTime.Now.AddMinutes(1);
+                return Ok(new
                 {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim("UserID", user.Id.ToString())
-                    }),
-                    Expires = DateTime.UtcNow.AddMinutes(5),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
-                };
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                var token = tokenHandler.WriteToken(securityToken);
-                return Ok(new { token, user });
+                    token = accessToken,
+                    refreshToken = refreshToken,
+                    user = user
+                });
             }
             else
-                return BadRequest(new { message = "Username or password is incorrect." });
+                return Unauthorized();
+               //return BadRequest(new { message = "Username or password is incorrect." });
         }
-        [HttpGet("{idnt}")]
+
+        [HttpPost]
+        [Route("refresh")]
+        public IActionResult Refresh(TokenModel tokenModel)
+        {
+            if (tokenModel is null)
+            {
+                return BadRequest("Invalid client request");
+            }
+            string accessToken = tokenModel.AccessToken;
+            string refreshToken = tokenModel.RefreshToken;
+            var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
+            var claim = principal.Claims.First<Claim>(); //this is mapped to the UserID claim by default
+            var userId = Int32.Parse(claim.Properties["UserID"].ToString());
+            var user = _uow.Users.SingleOrDefault(u => u.Id == userId);
+            if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            {
+                return BadRequest("Invalid client request");
+            }
+            var newAccessToken = _tokenService.GenerateAccessToken(principal.Claims);
+            var newRefreshToken = _tokenService.GenerateRefreshToken();
+            user.RefreshToken = newRefreshToken;
+            _uow.Complete();
+            return new ObjectResult(new
+            {
+                accessToken = newAccessToken,
+                refreshToken = newRefreshToken
+            });
+        }
+        [HttpPost, Authorize]
+        [Route("revoke")]
+        public IActionResult Revoke()
+        {
+            var claim = User.Claims.First<Claim>(); //this is mapped to the UserID claim by default
+            var userId = Int32.Parse(claim.Properties["UserID"].ToString());
+            var user = _uow.Users.SingleOrDefault(u => u.Id == userId);
+            if (user == null) return BadRequest();
+            user.RefreshToken = null;
+            _uow.Complete();
+            return NoContent();
+        }
+
+
+    [HttpGet("{idnt}")]
         //GET : /api/ApplicationUser/ProfilePic
         public IActionResult HasProfilePic([FromQuery] int idnt)
         {

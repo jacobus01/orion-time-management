@@ -9,5 +9,6 @@ namespace Orion.Web.API.Models
     {
         public string JWT_Secret { get; set; }
         public string Client_URL { get; set; }
+        public string AllowedServiceURL { get; set; }
     }
 }

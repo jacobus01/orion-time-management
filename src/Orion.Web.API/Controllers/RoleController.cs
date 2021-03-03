@@ -11,6 +11,7 @@ using Orion.Web.API.Models;
 
 namespace Orion.Web.API.Controllers
 {
+    //You must use attribute routing for any controllers that you want represented in your Swagger document(s):
     [Route("[controller]")]
     [ApiController]
     public class RoleController : ControllerBase
@@ -28,7 +29,7 @@ namespace Orion.Web.API.Controllers
         //POST : /api/ApplicationUser/Users
         public IActionResult GetRoleList()
         {
-
+            System.Threading.Thread.Sleep(3000);
             try
             {
                 var result = _uow.Roles.GetAll();

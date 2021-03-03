@@ -12,6 +12,7 @@ using Task = Orion.DAL.EF.Models.DB.Task;
 
 namespace Orion.Web.API.Controllers
 {
+    //You must use attribute routing for any controllers that you want represented in your Swagger document(s):
     [Route("[controller]")]
     [ApiController]
     public class TaskController : ControllerBase

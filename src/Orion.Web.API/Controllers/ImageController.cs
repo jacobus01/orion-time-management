@@ -10,6 +10,7 @@ using Orion.DAL.Repository.Interfaces;
 
 namespace Orion.Web.API.Controllers
 {
+    //You must use attribute routing for any controllers that you want represented in your Swagger document(s):
     [Route("[controller]")]
     [ApiController]
     public class ImageController : ControllerBase
